@@ -1,0 +1,78 @@
+DISSSASM INTERPRETATION
+
+P4:
+
+push ebp                             saves old ebp
+mov ebp, esp                         base of stack frame 
+sub    esp, 0x48                     esp = esp - 0x48
+push ebx
+push esi
+push edi
+mov    ecx, 0x4050a2
+call   sub_0x00000040A                function call
+mov    dword ptr [ebp - 8], 1         [ebp-8] = a = 1
+mov    dword ptr [ebp - 4], 2         [ebp-4] = b = 2
+mov    eax, dword ptr [ebp - 4]       eax = 2 (4 bytes)
+sub    eax, 2                         eax = eax - 2 = 0
+imul   ecx, dword ptr [ebp - 8], 3    ecx = [ebp-8] * 3 = a*3 = 3 (4 bytes)
+add    ecx, 1                         ecx = ecx+1 = [ebp-8] * 3 + 1 = 4
+imul   eax, ecx                       eax = eax * ecx = 0 * 4 = 0
+mov    edx, dword ptr [ebp - 8]       edx = a = 1
+sub    edx, 2                         edx = edx-2 = 1 - 2 = -1
+imul   ecx, edx, 3                    ecx = edx * 3 = -3
+sub    eax, ecx                       eax = eax - ecx = 0 - (-3) = 3
+mov    dword ptr [ebp - 4], eax       b = eax = 3
+xor    eax, eax                       eax = 0
+pop    edi                            pop saved values
+pop    esi
+pop    ebx
+mov    esp, ebp                       restore stack position
+pop    ebp                            restore previous ebp
+ret				      return 0;
+
+
+
+
+P6:
+
+File address   |Dissasm    
+0x00000440     |      push   ebp
+0x00000441     |      mov    ebp, esp
+0x00000443     |      sub    esp, 0x48
+0x00000446     |      push   ebx
+0x00000447     |      push   esi                                                                                                                                                      
+0x00000448     |      push   edi                                           
+0x00000449     |      mov    ecx, 0x4050a2
+0x0000044e     |      call   sub_0x00000040A                    function call
+0x00000453     |      mov    dword ptr [ebp - 4], 7             [ebp-4] = a = 7 (4 bytes)
+0x0000045a     |      mov    eax, dword ptr [ebp - 4]           eax = a = 7
+0x0000045d     |      and    eax, 5                             eax = 7 & 5 (0111&0101) = 5 
+0x00000460     |      mov    dword ptr [ebp - 8], eax           [ebp-8] = b = eax = 5
+0x00000463     |      mov    dword ptr [ebp - 4], 9             a = 9
+0x0000046a     |      mov    eax, dword ptr [ebp - 4]           eax = a
+0x0000046d     |      and    eax, 6                             eax = eax&6 = 0
+0x00000470     |      mov    dword ptr [ebp - 8], eax           b = eax = 0
+0x00000473     |      mov    dword ptr [ebp - 4], 9             a = 9
+0x0000047a     |      mov    eax, dword ptr [ebp - 4]           eax = a = 9
+0x0000047d     |      xor    eax, 6                             eax = eax xor 6 = 9 xor 6 = 15
+0x00000480     |      mov    dword ptr [ebp - 8], eax           b = eax = 15
+0x00000483     |      mov    dword ptr [ebp - 4], 3             a = 3
+0x0000048a     |      mov    eax, dword ptr [ebp - 4]           eax = a = 3
+0x0000048d     |      and    eax, 1                             eax = eax&1 = 3&1(11&01) = 1
+0x00000490     |      mov    dword ptr [ebp - 8], eax           b = 1
+0x00000493     |      mov    dword ptr [ebp - 4], 2             a = 2
+0x0000049a     |      mov    eax, dword ptr [ebp - 4]           eax = a = 2
+0x0000049d     |      or     eax, 1                             eax = eax | 1 (2|1) = 3
+0x000004a0     |      mov    dword ptr [ebp - 8], eax           b = eax = 3
+0x000004a3     |      xor    eax, eax                           eax = 0
+0x000004a5     |      pop    edi                                restore registers
+0x000004a6     |      pop    esi
+0x000004a7     |      pop    ebx
+0x000004a8     |      mov    esp, ebp                           return initial stack position
+0x000004aa     |      pop    ebp                                restore old ebp
+0x000004ab     |      ret                                       return 0
+
+
+
+
+
